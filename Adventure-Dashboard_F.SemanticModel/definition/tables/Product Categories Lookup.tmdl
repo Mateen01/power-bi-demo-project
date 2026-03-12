@@ -1,0 +1,39 @@
+/// Product category dimension table containing the highest level of product classification. Links to product subcategories and provides the foundation for product hierarchy analysis. Essential for grouping products into major business segments like Bikes, Components, Clothing, and Accessories.
+table 'Product Categories Lookup'
+	lineageTag: c5165f64-eb56-4ad2-94ca-69da68b94b53
+
+	column ProductCategoryKey
+		dataType: int64
+		isHidden
+		isKey
+		formatString: 0
+		lineageTag: ffa48c72-e3ec-46eb-a68b-9ffe3a258e55
+		summarizeBy: none
+		sourceColumn: ProductCategoryKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CategoryName
+		dataType: string
+		lineageTag: 25c1dc78-11dd-4c9e-b8c2-4f4334496f66
+		summarizeBy: none
+		sourceColumn: CategoryName
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Product Categories Lookup' = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("D:\Power BI\Adventure Works\AdventureWorks+Raw+Data\AdventureWorks Raw Data\AdventureWorks Product Categories Lookup.csv"),[Delimiter=",", Columns=2, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ProductCategoryKey", Int64.Type}, {"CategoryName", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

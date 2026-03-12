@@ -1,0 +1,29 @@
+/// Configuration table for price adjustment scenarios and sensitivity analysis. Contains percentage values used for what-if analysis on pricing strategies. Enables dynamic price modeling and helps analyze the impact of price changes on revenue and profitability.
+table 'Price Adjustment (%)'
+	lineageTag: 4977867a-98b0-4baa-84f8-d80c8f908607
+
+	measure 'Price Adjustment (%) Value' = SELECTEDVALUE('Price Adjustment (%)'[Price Adjustment (%)], 1)
+		lineageTag: 195f08c8-3e8c-4592-8014-ccb6116d339e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Price Adjustment (%)'
+		lineageTag: 9972aa97-9090-4fbf-8e0e-af1fd0a6286f
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'Price Adjustment (%)' = calculated
+		mode: import
+		source = GENERATESERIES(-1, 1, 0.1)
+
+	annotation PBI_Id = d66a6bcedaea447aaa24f15b9e5aac0f
+

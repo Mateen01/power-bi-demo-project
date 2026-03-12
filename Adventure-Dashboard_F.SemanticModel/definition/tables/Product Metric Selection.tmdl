@@ -1,0 +1,52 @@
+/// Parameter table for dynamic product metric selection in reports. Allows users to switch between different product performance metrics (sales, profit, quantity) using slicers. Enables interactive report functionality where users can change the displayed metric without modifying the underlying visualizations.
+table 'Product Metric Selection'
+	lineageTag: f78a2208-7eaa-49b5-b208-cc7ceb7341d5
+
+	column 'Product Metric Selection'
+		lineageTag: 5e364aaf-1996-4c2d-835a-8506165def14
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Product Metric Selection Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Product Metric Selection Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Metric Selection Fields'
+		isHidden
+		lineageTag: a8f8cc08-bce7-4061-a1f8-1e4fe79bf49d
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Product Metric Selection Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Metric Selection Order'
+		isHidden
+		formatString: 0
+		lineageTag: 167d60ba-d4ce-40e4-8729-2cb2d5d04955
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Product Metric Selection' = calculated
+		mode: import
+		source =
+				{
+				    ("Revenue", NAMEOF('Measures Table'[Total Revenue]), 0),
+				    ("Orders", NAMEOF('Measures Table'[Total Orders]), 1),
+				    ("Profit", NAMEOF('Measures Table'[Total Profit]), 2),
+				    ("Returns", NAMEOF('Measures Table'[Total Returns]), 3),
+				    ("Return %", NAMEOF('Measures Table'[Return Rate]), 4)
+				}
+
+	annotation PBI_Id = da16cfc6b0a8406b9df400102a6c6361
+

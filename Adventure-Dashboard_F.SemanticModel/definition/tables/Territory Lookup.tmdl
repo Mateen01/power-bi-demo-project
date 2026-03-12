@@ -1,0 +1,68 @@
+/// Geographic dimension table containing sales territory information. Stores the hierarchical geographic structure from continent down to specific sales regions. Used to analyze sales performance across different geographic locations and enables drilling down from continental to regional level analysis.
+table 'Territory Lookup'
+	lineageTag: e3900a36-ec80-4e54-9902-133eaf74db91
+
+	column SalesTerritoryKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 487324df-a412-4bee-9740-460aeafc6b0e
+		summarizeBy: none
+		sourceColumn: SalesTerritoryKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: 6fcb4169-376a-4b00-bb9a-5fbfc02af1f1
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		lineageTag: 8fffe4d1-01e7-4f4b-ae13-ef3d13a217ce
+		dataCategory: Country
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column Continent
+		dataType: string
+		lineageTag: ee737d74-4b31-41df-bee1-d46f79fb5820
+		dataCategory: Continent
+		summarizeBy: none
+		sourceColumn: Continent
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy 'Terittory hierarchy'
+		lineageTag: 8e9a9948-791d-4af9-97f0-102962083f2b
+
+		level Continent
+			lineageTag: 0c0f199a-4a07-4ab0-a359-3eb02298bd60
+			column: Continent
+
+		level Country
+			lineageTag: 778b4ff8-b557-4129-855e-bcc48cbc73a9
+			column: Country
+
+		level Region
+			lineageTag: 9932d30e-5ce3-43df-b946-e809486f492e
+			column: Region
+
+	partition 'Territory Lookup' = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("D:\Power BI\Adventure Works\AdventureWorks+Raw+Data\AdventureWorks Raw Data\AdventureWorks Territory Lookup.csv"),[Delimiter=",", Columns=4, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"SalesTerritoryKey", Int64.Type}, {"Region", type text}, {"Country", type text}, {"Continent", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,49 @@
+/// Parameter table for dynamic customer metric selection in reports. Allows users to switch between different customer performance metrics (revenue per customer, order frequency, customer lifetime value) using slicers. Provides interactive functionality for customer-focused analysis and reporting.
+table 'Customer Metric Selection'
+	lineageTag: 17f64a13-6152-44aa-802d-5d98e141fb4d
+
+	column 'Customer Metric Selection'
+		lineageTag: 3dbd9e29-fd03-473b-8765-3813413ddfb8
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Customer Metric Selection Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Customer Metric Selection Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer Metric Selection Fields'
+		isHidden
+		lineageTag: 15b1855a-05ed-43af-ab7a-abaec9379ba3
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Customer Metric Selection Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer Metric Selection Order'
+		isHidden
+		formatString: 0
+		lineageTag: 9cca3837-5e97-4ea1-9186-28eb00597127
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Customer Metric Selection' = calculated
+		mode: import
+		source =
+				{
+				    ("Total Customers", NAMEOF('Measures Table'[Total Customers]), 0),
+				    ("Revenue Per Customer", NAMEOF('Measures Table'[Average Revenue Per Customer]), 1)
+				}
+
+	annotation PBI_Id = fa0d71a12c2b4b85bc93cd9371916c0d
+

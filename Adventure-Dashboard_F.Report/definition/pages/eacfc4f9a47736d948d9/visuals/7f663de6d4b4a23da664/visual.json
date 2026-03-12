@@ -1,0 +1,16 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "7f663de6d4b4a23da664",
+  "position": {
+    "x": 0,
+    "y": 560,
+    "z": 7001,
+    "height": 160,
+    "width": 31.818181818181817,
+    "tabOrder": 4000
+  },
+  "visualGroup": {
+    "displayName": "Nav Buyttons",
+    "groupMode": "ScaleMode"
+  }
+}

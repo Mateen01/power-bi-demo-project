@@ -1,0 +1,97 @@
+/// Primary calendar dimension table providing standard date functionality and time intelligence capabilities. Contains date hierarchy with day, month, quarter, and year levels. Essential for all time-based calculations and enables proper date filtering and time series analysis across all fact tables.
+table Calendar
+	lineageTag: 975116c4-c8c7-4387-8ef2-f3b599d14d32
+
+	measure 'Order Target Gap' = [Total Orders] -  [Order Target]
+		lineageTag: e651467f-7472-46a8-a20c-5fefb5625afa
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Profit Target Gap' = [Total Profit] - [Profit Target]
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: bf4f10f1-c950-47eb-8a0b-1ba36ac8ff15
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Revenue Target Gap' = [Total Revenue] -  [Revenue Target]
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 60df6d2e-4b41-41bb-9875-1d8069b0d3fe
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: ace84e43-26f1-495b-83b4-3e53b01ff543
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Day Name'
+		dataType: string
+		lineageTag: 9a3a46fa-1f47-4c25-9c6b-be902f6ae90b
+		summarizeBy: none
+		sourceColumn: Day Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Start of Quarter'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 21bb0824-245b-4b2c-9c1f-8c55c271ca52
+		summarizeBy: none
+		sourceColumn: Start of Quarter
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: c5065c77-69ed-4aed-93a2-34158d683091
+		summarizeBy: sum
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Start of Month'
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 51437ccf-b3de-41f3-9e28-896015965fca
+		summarizeBy: none
+		sourceColumn: Start of Month
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition Calendar = m
+		mode: import
+		source =
+				let
+				    Source = #date(2025,1,1),
+				    Custom1 = List.Dates(
+				Source,
+				Number.From(DateTimeZone.LocalNow())-Number.From(Source),
+				#duration(1,0,0,0)
+				),
+				    #"Converted to Table" = Table.FromList(Custom1, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+				    #"Renamed Columns" = Table.RenameColumns(#"Converted to Table",{{"Column1", "Date"}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Renamed Columns",{{"Date", type date}}),
+				    #"Inserted Day Name" = Table.AddColumn(#"Changed Type", "Day Name", each Date.DayOfWeekName([Date]), type text),
+				    #"Inserted Start of Quarter" = Table.AddColumn(#"Inserted Day Name", "Start of Quarter", each Date.StartOfQuarter([Date]), type date),
+				    #"Inserted Start of Year" = Table.AddColumn(#"Inserted Start of Quarter", "Start of Year", each Date.StartOfYear([Date]), type date),
+				    #"Removed Columns" = Table.RemoveColumns(#"Inserted Start of Year",{"Start of Year"}),
+				    #"Inserted Year" = Table.AddColumn(#"Removed Columns", "Year", each Date.Year([Date]), Int64.Type),
+				    #"Inserted Start of Month" = Table.AddColumn(#"Inserted Year", "Start of Month", each Date.StartOfMonth([Date]), type date)
+				in
+				    #"Inserted Start of Month"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

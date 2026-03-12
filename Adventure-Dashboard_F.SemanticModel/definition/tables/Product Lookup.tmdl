@@ -1,0 +1,153 @@
+/// Detailed product dimension table containing comprehensive product information including specifications, pricing, and categorization. Contains SKU-level details with cost and price information. The SKU Type field groups similar products for analysis. Essential for product performance analysis and inventory management.
+table 'Product Lookup'
+	lineageTag: 98fe3804-fecd-43a8-b594-adc92fbbf458
+
+	column ProductKey
+		dataType: int64
+		isKey
+		formatString: 0
+		lineageTag: 341f1d0a-b0b8-434d-8a85-aec6f5a9c990
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductSubcategoryKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 71a1316f-253a-4149-8bee-a6836d6bb1f8
+		summarizeBy: none
+		sourceColumn: ProductSubcategoryKey
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductSKU
+		dataType: string
+		lineageTag: 50f83d94-d363-4dd8-8343-c87f3cc08d7e
+		summarizeBy: none
+		sourceColumn: ProductSKU
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductName
+		dataType: string
+		lineageTag: c174b1a6-18e0-4242-8dcb-0504a30d0301
+		summarizeBy: none
+		sourceColumn: ProductName
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ModelName
+		dataType: string
+		lineageTag: 2972ab5f-f2bf-463a-be4c-31f34554ef5e
+		summarizeBy: none
+		sourceColumn: ModelName
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductDescription
+		dataType: string
+		lineageTag: 01791635-1961-4753-aa5d-3ae70c3ef20e
+		summarizeBy: none
+		sourceColumn: ProductDescription
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductColor
+		dataType: string
+		lineageTag: 454a8c65-ad3d-4b0d-8053-26d096a96d06
+		summarizeBy: none
+		sourceColumn: ProductColor
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductStyle
+		dataType: string
+		lineageTag: ea027849-e9d1-406e-9096-13a1e2a6f6ad
+		summarizeBy: none
+		sourceColumn: ProductStyle
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductCost
+		dataType: decimal
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 4408ff1e-f4a1-4835-9aef-470ec93c719f
+		summarizeBy: sum
+		sourceColumn: ProductCost
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column ProductPrice
+		dataType: decimal
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 09768737-d39d-4b53-a7a6-8d3ec836cebb
+		summarizeBy: sum
+		sourceColumn: ProductPrice
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column 'SKU Type'
+		dataType: string
+		lineageTag: f3c71fce-59f9-4a1f-aa84-7cf6798a48cd
+		summarizeBy: none
+		sourceColumn: SKU Type
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SKU Category' = LEFT('Product Lookup'[ProductSKU],FIND("-",'Product Lookup'[ProductSKU],1)-1)
+		lineageTag: 2d249b13-61ee-4fe5-8cfb-4305b0fb8d37
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Product Lookup' = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("D:\Power BI\Adventure Works\AdventureWorks+Raw+Data\AdventureWorks Raw Data\AdventureWorks Product Lookup.csv"),[Delimiter=",", Columns=11, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ProductKey", Int64.Type}, {"ProductSubcategoryKey", Int64.Type}, {"ProductSKU", type text}, {"ProductName", type text}, {"ModelName", type text}, {"ProductDescription", type text}, {"ProductColor", type text}, {"ProductSize", type text}, {"ProductStyle", type text}, {"ProductCost", type number}, {"ProductPrice", type number}}),
+				    #"Changed to Currency" = Table.TransformColumnTypes(#"Changed Type",{{"ProductCost", Currency.Type}, {"ProductPrice", Currency.Type}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed to Currency",{"ProductSize"}),
+				    #"Added Custom" = Table.AddColumn(#"Removed Columns", "SKU Type.1", each Text.BeforeDelimiter([ProductSKU],"-")),
+				    #"Renamed Columns" = Table.RenameColumns(#"Added Custom",{{"SKU Type.1", "SKU Type"}}),
+				    #"Added Custom1" = Table.AddColumn(#"Renamed Columns", "SKU Type 2", each Text.Combine(List.FirstN(Text.Split([ProductSKU], "-"), 2), "-")),
+				    #"Replaced Value" = Table.ReplaceValue(#"Added Custom1","0","NA",Replacer.ReplaceText,{"ProductStyle"}),
+				    #"Removed Columns1" = Table.RemoveColumns(#"Replaced Value",{"SKU Type"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Removed Columns1",{{"SKU Type 2", "SKU Type"}})
+				in
+				    #"Renamed Columns1"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
