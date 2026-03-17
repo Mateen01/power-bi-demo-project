@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
-  "name": "a456f10e037604c08041",
+  "name": "63326c5f48750e972c4a",
   "position": {
-    "x": 113,
+    "x": 278.5,
     "y": 545,
-    "z": 4000,
+    "z": 5000,
     "height": 103,
     "width": 161,
-    "tabOrder": 4000
+    "tabOrder": 6000
   },
   "visual": {
     "visualType": "kpi",
@@ -23,11 +23,11 @@
                       "Entity": "Measures Table"
                     }
                   },
-                  "Property": "Previous Month Revenue"
+                  "Property": "Previous Month Orders"
                 }
               },
-              "queryRef": "Measures Table.Previous Month Revenue",
-              "nativeQueryRef": "Previous Month Revenue"
+              "queryRef": "Measures Table.Previous Month Orders",
+              "nativeQueryRef": "Previous Month Orders"
             }
           ]
         },
@@ -41,11 +41,11 @@
                       "Entity": "Measures Table"
                     }
                   },
-                  "Property": "Total Revenue"
+                  "Property": "Total Orders"
                 }
               },
-              "queryRef": "Measures Table.Total Revenue",
-              "nativeQueryRef": "Total Revenue"
+              "queryRef": "Measures Table.Total Orders",
+              "nativeQueryRef": "Total Orders"
             }
           ]
         },
@@ -83,7 +83,7 @@
             "indicatorDisplayUnits": {
               "expr": {
                 "Literal": {
-                  "Value": "1000000D"
+                  "Value": "0D"
                 }
               }
             },
@@ -119,6 +119,17 @@
                     "ThemeDataColor": {
                       "ColorId": 1,
                       "Percent": 0.2
+                    }
+                  }
+                }
+              }
+            },
+            "badColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#DF1919'"
                     }
                   }
                 }
@@ -161,7 +172,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Monthly Revenue'"
+                  "Value": "'Total Orders'"
                 }
               }
             },
