@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/1.4.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/2.1.0/schema.json",
   "displayName": "Open Exec Sicer",
   "name": "06c446e74be069e052ea",
   "options": {
@@ -221,61 +221,6 @@
                   }
                 }
               ]
-            }
-          },
-          "19e75ed1c050d0592356": {
-            "filters": {
-              "byExpr": [
-                {
-                  "name": "d55062f04bcdcb2209de",
-                  "type": "Advanced",
-                  "expression": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Measures Table"
-                        }
-                      },
-                      "Property": "Previous Month Returns"
-                    }
-                  },
-                  "howCreated": 0
-                },
-                {
-                  "name": "715c96304244449ab482",
-                  "type": "Advanced",
-                  "expression": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Measures Table"
-                        }
-                      },
-                      "Property": "Total Returns"
-                    }
-                  },
-                  "howCreated": 0
-                },
-                {
-                  "name": "a45d1890625ceeaeed31",
-                  "type": "Categorical",
-                  "expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Calendar Lookup"
-                        }
-                      },
-                      "Property": "Start of Month"
-                    }
-                  },
-                  "howCreated": 0
-                }
-              ]
-            },
-            "singleVisual": {
-              "visualType": "kpi",
-              "objects": {}
             }
           },
           "3833849690c43840741a": {
@@ -634,61 +579,6 @@
                   }
                 }
               ]
-            }
-          },
-          "63326c5f48750e972c4a": {
-            "filters": {
-              "byExpr": [
-                {
-                  "name": "57f47b103e1057be770d",
-                  "type": "Advanced",
-                  "expression": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Measures Table"
-                        }
-                      },
-                      "Property": "Previous Month Orders"
-                    }
-                  },
-                  "howCreated": 0
-                },
-                {
-                  "name": "e0f1df8961ec8a2730b2",
-                  "type": "Advanced",
-                  "expression": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Measures Table"
-                        }
-                      },
-                      "Property": "Total Orders"
-                    }
-                  },
-                  "howCreated": 0
-                },
-                {
-                  "name": "27e9c0b78ab100858e26",
-                  "type": "Categorical",
-                  "expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Calendar Lookup"
-                        }
-                      },
-                      "Property": "Start of Month"
-                    }
-                  },
-                  "howCreated": 0
-                }
-              ]
-            },
-            "singleVisual": {
-              "visualType": "kpi",
-              "objects": {}
             }
           },
           "782322f2978dc98d30d7": {

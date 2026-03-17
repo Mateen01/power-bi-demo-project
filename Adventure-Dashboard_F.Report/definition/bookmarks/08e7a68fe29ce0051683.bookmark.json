@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/1.4.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/2.1.0/schema.json",
   "displayName": "Close Exec Slicer",
   "name": "08e7a68fe29ce0051683",
   "options": {
@@ -215,61 +215,6 @@
                   }
                 }
               ]
-            }
-          },
-          "19e75ed1c050d0592356": {
-            "filters": {
-              "byExpr": [
-                {
-                  "name": "74159b2cc28539330e03",
-                  "type": "Advanced",
-                  "expression": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Measures Table"
-                        }
-                      },
-                      "Property": "Previous Month Returns"
-                    }
-                  },
-                  "howCreated": 0
-                },
-                {
-                  "name": "6ef982e25ccd90e80593",
-                  "type": "Advanced",
-                  "expression": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Measures Table"
-                        }
-                      },
-                      "Property": "Total Returns"
-                    }
-                  },
-                  "howCreated": 0
-                },
-                {
-                  "name": "2d886e9a52087a836c3d",
-                  "type": "Categorical",
-                  "expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Calendar Lookup"
-                        }
-                      },
-                      "Property": "Start of Month"
-                    }
-                  },
-                  "howCreated": 0
-                }
-              ]
-            },
-            "singleVisual": {
-              "visualType": "kpi",
-              "objects": {}
             }
           },
           "3833849690c43840741a": {
@@ -628,61 +573,6 @@
                   }
                 }
               ]
-            }
-          },
-          "63326c5f48750e972c4a": {
-            "filters": {
-              "byExpr": [
-                {
-                  "name": "814defec9067950c584d",
-                  "type": "Advanced",
-                  "expression": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Measures Table"
-                        }
-                      },
-                      "Property": "Previous Month Orders"
-                    }
-                  },
-                  "howCreated": 0
-                },
-                {
-                  "name": "a791128282014530e4e3",
-                  "type": "Advanced",
-                  "expression": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Measures Table"
-                        }
-                      },
-                      "Property": "Total Orders"
-                    }
-                  },
-                  "howCreated": 0
-                },
-                {
-                  "name": "1b22e53709e4608dc902",
-                  "type": "Categorical",
-                  "expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Calendar Lookup"
-                        }
-                      },
-                      "Property": "Start of Month"
-                    }
-                  },
-                  "howCreated": 0
-                }
-              ]
-            },
-            "singleVisual": {
-              "visualType": "kpi",
-              "objects": {}
             }
           },
           "782322f2978dc98d30d7": {
